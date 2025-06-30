@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekt LazyCraft.pl - zxq0 Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #d300ff;
+            --background-color: #100018;
+            --text-color: #f0f0f0;
+            --text-muted-color: #a8b2d1;
+            --card-bg-color: rgba(22, 5, 29, 0.6);
+            --glow-color: rgba(211, 0, 255, 0.5);
+            --border-color: rgba(211, 0, 255, 0.2);
+            --footer-bg-color: #16031d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--background-color);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.75s ease, visibility 0.75s;
+        }
+        #preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader {
+          display: inline-block;
+          position: relative;
+          width: 80px;
+          height: 80px;
+        }
+        .loader div {
+          position: absolute;
+          top: 33px;
+          width: 13px;
+          height: 13px;
+          border-radius: 50%;
+          background: var(--primary-color);
+          animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+        .loader div:nth-child(1) { left: 8px; animation: flip1 0.6s infinite; }
+        .loader div:nth-child(2) { left: 8px; animation: flip2 0.6s infinite; }
+        .loader div:nth-child(3) { left: 32px; animation: flip2 0.6s infinite; }
+        .loader div:nth-child(4) { left: 56px; animation: flip3 0.6s infinite; }
+        @keyframes flip1 { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        @keyframes flip3 { 0% { transform: scale(1); } 100% { transform: scale(0); } }
+        @keyframes flip2 { 0% { transform: translate(0, 0); } 100% { transform: translate(24px, 0); } }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 0;
+            z-index: 1000;
+            background: rgba(16, 0, 24, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .logo-img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+        
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .nav-links a:not(.btn):hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--glow-color);
+        }
+
+        .section { padding: 100px 0; }
+        .page-header {
+            padding-top: 150px;
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- SEKCJA PROJEKTU --- */
+        .project-showcase-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .project-details .category {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .project-details h1 {
+            font-size: 3rem;
+            background: linear-gradient(90deg, var(--primary-color), #f0f0f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px var(--glow-color);
+        }
+        .project-details p {
+            line-height: 1.8;
+            color: var(--text-muted-color);
+            margin-bottom: 30px;
+        }
+        .project-main-image img {
+            width: 100%;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-shadow: 0 0 15px var(--glow-color);
+        }
+        
+        .title-separator {
+            width: 120px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 3px;
+            margin: 0 auto 60px auto;
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .feature-card {
+            background: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .feature-icon {
+            color: var(--primary-color);
+            flex-shrink: 0;
+        }
+        .feature-icon svg {
+             width: 40px;
+             height: 40px;
+             stroke-width: 1.5;
+             filter: drop-shadow(0 0 8px var(--glow-color));
+        }
+        .feature-card h4 {
+            font-size: 1.2rem;
+        }
+
+        /* --- STOPKA --- */
+        .site-footer {
+            background-color: var(--footer-bg-color);
+            padding: 80px 0;
+            margin-top: 100px;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+        .footer-about h4 {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .footer-about .logo-img {
+            width: 40px;
+            height: 40px;
+        }
+        .footer-about p {
+            color: var(--text-muted-color);
+            line-height: 1.7;
+        }
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+        .footer-links {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        .footer-links a {
+            color: var(--text-muted-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        .footer-bottom-text {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted-color);
+            font-size: 0.9rem;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .page-header h1, .project-details h1 { font-size: 2.5rem; }
+            .project-showcase-grid { grid-template-columns: 1fr; text-align: center; }
+        }
+        
+        /* --- Animations --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes rotateGlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div id="preloader">
+        <div class="loader"><div></div><div></div><div></div><div></div></div>
+    </div>
+
+    <div id="particles-js"></div>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html"><img src="https://i.imgur.com/HewbjVb.png" alt="Profilowe zxq0" class="logo-img"></a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">Strona Główna</a></li>
+                    <li><a href="realizacje.html">Realizacje</a></li>
+                    <li><a href="index.html#contact">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section page-header">
+            <div class="container">
+                <div class="project-showcase-grid animate-on-scroll">
+                    <div class="project-details">
+                        <p class="category">Serwer Minecraft</p>
+                        <h1>LazyCraft.pl</h1>
+                        <p>Bot na Discorda stworzony na specjalne zamówienie dla serwera Minecraft LazyCraft.pl. Jego zadaniem jest kompleksowa obsługa społeczności, automatyzacja zadań moderacyjnych oraz dostarczanie unikalnych funkcji, które wzbogacają doświadczenie graczy.</p>
+                    </div>
+                    <div class="project-main-image">
+                        <img src="https://i.imgur.com/IrnrSPZ.png" alt="Logo LazyCraft.pl">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Kluczowe Funkcje Bota</h2>
+                <div class="title-separator animate-on-scroll"></div>
+                <div class="features-grid">
+                    <div class="feature-card animate-on-scroll"><div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16.5 6v.01M16.5 12v.01M16.5 18v.01M8.5 6v.01M8.5 12v.01M8.5 18v.01M3 6h18M3 12h18M3 18h18" /></svg></div><h4>System Ticketów</h4></div>
+                    <div class="feature-card animate-on-scroll"><div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div><h4>Weryfikacja</h4></div>
+                    <div class="feature-card animate-on-scroll"><div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 16l-4-4m0 0l4-4m-4 4h18" /></svg></div><h4>Powitania</h4></div>
+                    <div class="feature-card animate-on-scroll"><div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg></div><h4>Powiadomienia o Boostach</h4></div>
+                    <div class="feature-card animate-on-scroll"><div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg></div><h4>Statystyki Serwera</h4></div>
+                    <div class="feature-card animate-on-scroll"><div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4H5z" /></svg></div><h4>Losowania (Giveaway)</h4></div>
+                    <div class="feature-card animate-on-scroll"><div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg></div><h4>Propozycje</h4></div>
+                    <div class="feature-card animate-on-scroll"><div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg></div><h4>Ekonomia</h4></div>
+                    <div class="feature-card animate-on-scroll"><div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg></div><h4>Logi Moderacyjne</h4></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h4><img src="https://i.imgur.com/HewbjVb.png" alt="Avatar zxq0" class="logo-img"> zxq0</h4>
+                    <p>Strona stworzona przeze mnie, by reprezentować moją twórczość oraz ofertę</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Nawigacja</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Strona główna</a></li>
+                        <li><a href="index.html#testimonials">Opinie</a></li>
+                        <li><a href="realizacje.html">Realizacje</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Oferta</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Strony Internetowe</a></li>
+                        <li><a href="#">Discord Boty</a></li>
+                        <li><a href="#">Systemy Zabezpieczeń</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Sociale</h4>
+                    <ul class="footer-links">
+                        
+                        <li><a href="https://discord.gg/EdbgdFtw" target="_blank">Discord</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Kontakt</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:kontakt@zxq0.com">kontakt@zxq0.com</a></li>
+                        <li><a href="kontakt.html">Formularz kontaktowy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom-text">
+                <p>© 2025 zxq0. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const preloader = document.getElementById('preloader');
+            window.onload = () => preloader.classList.add('loaded');
+
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            animatedElements.forEach(el => observer.observe(el));
+            
+            particlesJS('particles-js', {
+              "particles": { "number": { "value": 60, "density": { "enable": true, "value_area": 800 }}, "color": { "value": "#d300ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false }}, "size": { "value": 3, "random": true, "anim": { "enable": false }}, "line_linked": { "enable": true, "distance": 150, "color": "#d300ff", "opacity": 0.2, "width": 1}, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false}},
+              "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true}, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 }}, "push": { "particles_nb": 4 }}},
+              "retina_detect": true
+            });
+        });
+    </script>
+</body>
+</html>

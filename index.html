@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zxq0 - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #d300ff;
+            --background-color: #100018;
+            --text-color: #f0f0f0;
+            --text-muted-color: #a8b2d1;
+            --card-bg-color: rgba(22, 5, 29, 0.6);
+            --glow-color: rgba(211, 0, 255, 0.5);
+            --border-color: rgba(211, 0, 255, 0.2);
+            --footer-bg-color: #16031d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--background-color);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.75s ease, visibility 0.75s;
+        }
+        #preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader {
+          display: inline-block;
+          position: relative;
+          width: 80px;
+          height: 80px;
+        }
+        .loader div {
+          position: absolute;
+          top: 33px;
+          width: 13px;
+          height: 13px;
+          border-radius: 50%;
+          background: var(--primary-color);
+          animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+        .loader div:nth-child(1) { left: 8px; animation: flip1 0.6s infinite; }
+        .loader div:nth-child(2) { left: 8px; animation: flip2 0.6s infinite; }
+        .loader div:nth-child(3) { left: 32px; animation: flip2 0.6s infinite; }
+        .loader div:nth-child(4) { left: 56px; animation: flip3 0.6s infinite; }
+        @keyframes flip1 { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        @keyframes flip3 { 0% { transform: scale(1); } 100% { transform: scale(0); } }
+        @keyframes flip2 { 0% { transform: translate(0, 0); } 100% { transform: translate(24px, 0); } }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 0;
+            z-index: 1000;
+            background: rgba(16, 0, 24, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .logo-img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+        
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .nav-links a:not(.btn):hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--glow-color);
+        }
+
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+            position: relative;
+        }
+        
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            animation: fadeIn 1s 0.2s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        .profile-pic-container {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(45deg, var(--primary-color), #5a00ff);
+            animation: rotateGlow 5s linear infinite;
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid var(--background-color);
+        }
+
+        h1 { font-size: 4rem; font-weight: 700; }
+        h1 span { color: var(--primary-color); }
+        .subtitle { font-size: 1.5rem; font-weight: 300; color: rgba(240, 240, 240, 0.8); }
+
+        .section { padding: 100px 0; }
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 60px;
+            color: var(--primary-color);
+            text-shadow: 0 0 15px var(--glow-color);
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 28px;
+            background: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            border: 2px solid var(--primary-color);
+            cursor: pointer;
+        }
+        .btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 0 25px var(--glow-color);
+            background: #e433ff;
+        }
+        
+        /* --- SEKCJE KARUZELI --- */
+        .carousel-container { position: relative; }
+        .carousel-wrapper { position: relative; overflow: hidden; }
+        .carousel-track { display: flex; align-items: center; transition: transform 0.5s ease-in-out; }
+        .carousel-slide { flex-shrink: 0; transition: transform 0.5s ease, opacity 0.5s ease; opacity: 0.6; transform: scale(0.85); }
+        .carousel-slide.active-slide { opacity: 1; transform: scale(1); }
+        .carousel-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background-color: rgba(211, 0, 255, 0.2); border: 1px solid var(--border-color);
+            color: var(--text-color); width: 50px; height: 50px; border-radius: 50%;
+            cursor: pointer; z-index: 20; display: flex; align-items: center; justify-content: center;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .carousel-arrow:hover { background-color: var(--primary-color); transform: translateY(-50%) scale(1.1); }
+        .carousel-arrow.prev { left: -25px; }
+        .carousel-arrow.next { right: -25px; }
+        
+        #testimonials .testimonial-card { width: 100%; max-width: 600px; padding: 40px; text-align: center; margin: 0 20px; background: var(--card-bg-color); border-radius: 15px; border: 1px solid var(--border-color); }
+        .testimonial-header { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .testimonial-img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--primary-color); }
+        #testimonials .testimonial-card h3 { font-size: 1.5rem; font-weight: 600; }
+        #testimonials .testimonial-card p { font-style: italic; font-size: 1.1rem; color: rgba(240, 240, 240, 0.9); line-height: 1.7; }
+        
+        /* --- NOWA STOPKA --- */
+        .site-footer {
+            background-color: var(--footer-bg-color);
+            padding: 80px 0;
+            margin-top: 100px;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+        .footer-about h4 {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .footer-about .logo-img {
+            width: 40px;
+            height: 40px;
+        }
+        .footer-about p {
+            color: var(--text-muted-color);
+            line-height: 1.7;
+        }
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        .footer-links a {
+            color: var(--text-muted-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        .footer-bottom-text {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted-color);
+            font-size: 0.9rem;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.8rem; }
+            .main-nav { display: none; }
+            .section-title { font-size: 2.2rem; }
+            .carousel-arrow { bottom: -60px; top: auto; }
+            .carousel-arrow.prev { left: 30%; transform: translateX(-50%);}
+            .carousel-arrow.next { right: 30%; transform: translateX(50%);}
+            .carousel-container { padding-bottom: 60px; }
+        }
+        
+        /* --- Animations --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes rotateGlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px var(--glow-color); }
+            50% { box-shadow: 0 0 30px var(--glow-color); }
+            100% { box-shadow: 0 0 15px var(--glow-color); }
+        }
+    </style>
+</head>
+<body>
+    <div id="preloader">
+        <div class="loader"><div></div><div></div><div></div><div></div></div>
+    </div>
+
+    <div id="particles-js"></div>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="#hero"><img src="https://i.imgur.com/HewbjVb.png" alt="Profilowe zxq0" class="logo-img"></a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="#hero">Start</a></li>
+                    <li><a href="#testimonials">Opinie</a></li>
+                    <li><a href="#contact">Kontakt</a></li>
+                </ul>
+                <a href="realizacje.html" class="btn" style="animation: pulseGlow 2s infinite ease-in-out;">Moje Realizacje</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <div class="profile-pic-container">
+                    <img src="https://i.imgur.com/HewbjVb.png" alt="Profilowe zxq0" class="profile-pic">
+                </div>
+                <h1>Cześć, jestem <span>zxq0</span></h1>
+                <p class="subtitle">Full-Stack Developer & Innovator</p>
+            </div>
+        </section>
+
+        <section id="testimonials" class="section">
+            <div class="container carousel-container">
+                <h2 class="section-title animate-on-scroll">Opinie Klientów</h2>
+                <div class="carousel-wrapper animate-on-scroll">
+                    <div class="carousel-track testimonial-carousel">
+                        <div class="testimonial-card carousel-slide"><div class="testimonial-header"><img src="https://cdn.discordapp.com/avatars/1376166568517697546/a_5d88b7131a40f8df42e0d2f545efa9fb.gif?size=1024" alt="Avatar" class="testimonial-img"><h3>derek_332</h3></div><p>Zajebisty bot, zaawansowane tickety,propozycje itp tak jak chciałem, serdecznie polecam</p></div>
+                        <div class="testimonial-card carousel-slide"><div class="testimonial-header"><img src="https://cdn.discordapp.com/avatars/810238396953264129/90267ba0b38068ae7068a7adf977edee.png?size=1024" alt="Avatar" class="testimonial-img"><h3>adambejmert</h3></div><p>Polecam discord bota! Bardzo zaawansowany bot, system ticketów, weryfikacji, ekonomia, propozycje i wiele więcej po prostu warto 🙂</p></div>
+                        <div class="testimonial-card carousel-slide"><div class="testimonial-header"><img src="https://cdn.discordapp.com/avatars/1054007859031056464/95647d280f80ebb8c7dde8286ad7353e?size=1024" alt="Avatar" class="testimonial-img"><h3>MixEl1</h3></div><p>Zarąbisty discord bot, wiele funkcji serdecznie polecam</p></div>
+                        <div class="testimonial-card carousel-slide"><div class="testimonial-header"><img src="https://cdn.discordapp.com/avatars/388363552500613132/29b53ad1a8156f1ab58488dd386ace1e?size=1024" alt="Avatar" class="testimonial-img"><h3>chugo_owo</h3></div><p>Super bot, rewelacyjny czas realizacji, zaawansowane funkcje i zarąbista współpraca! Polecam!</p></div>
+                    </div>
+                </div>
+                <button class="carousel-arrow prev" aria-label="Poprzednia opinia"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg></button>
+                <button class="carousel-arrow next" aria-label="Następna opinia"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg></button>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact" class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h4><img src="https://i.imgur.com/HewbjVb.png" alt="Avatar zxq0" class="logo-img"> zxq0</h4>
+                    <p>Strona stworzona przeze mnie, by reprezentować moją twórczość oraz ofertę</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Nawigacja</h4>
+                    <ul class="footer-links">
+                        <li><a href="#hero">Strona główna</a></li>
+                        <li><a href="#testimonials">Opinie</a></li>
+                        <li><a href="realizacje.html">Realizacje</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Oferta</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Strony Internetowe</a></li>
+                        <li><a href="#">Discord Boty</a></li>
+                        <li><a href="#">Systemy Zabezpieczeń</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Sociale</h4>
+                    <ul class="footer-links">
+                        
+                        <li><a href="https://discord.gg/EdbgdFtw" target="_blank">Discord</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Kontakt</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:kontakt@zxq0.com">kontakt@zxq0.com</a></li>
+                        <li><a href="kontakt.html">Formularz kontaktowy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom-text">
+                <p>© 2025 zxq0. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const preloader = document.getElementById('preloader');
+            window.onload = () => preloader.classList.add('loaded');
+
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            animatedElements.forEach(el => observer.observe(el));
+
+            function setupCarousel(containerSelector, initialIndex = 0) {
+                const container = document.querySelector(containerSelector);
+                if (!container) return;
+                const track = container.querySelector('.carousel-track');
+                const slides = Array.from(track.children);
+                const prevButton = container.querySelector('.carousel-arrow.prev');
+                const nextButton = container.querySelector('.carousel-arrow.next');
+                if (slides.length <= 1) {
+                    if(prevButton) prevButton.style.display = 'none';
+                    if(nextButton) nextButton.style.display = 'none';
+                    slides.forEach(s => s.classList.add('active-slide'));
+                    return;
+                }
+                let currentIndex = initialIndex;
+                function updateCarousel() {
+                    const activeSlide = slides[currentIndex];
+                    const wrapper = container.querySelector('.carousel-wrapper');
+                    if (!activeSlide || !wrapper) return;
+                    const offset = wrapper.offsetWidth / 2 - activeSlide.offsetLeft - activeSlide.offsetWidth / 2;
+                    track.style.transform = `translateX(${offset}px)`;
+                    slides.forEach((slide, index) => slide.classList.toggle('active-slide', index === currentIndex));
+                }
+                nextButton.addEventListener('click', () => { currentIndex = (currentIndex + 1) % slides.length; updateCarousel(); });
+                prevButton.addEventListener('click', () => { currentIndex = (currentIndex - 1 + slides.length) % slides.length; updateCarousel(); });
+                window.addEventListener('resize', updateCarousel);
+                updateCarousel();
+            }
+            setupCarousel('#testimonials .carousel-container', 1);
+            
+            particlesJS('particles-js', {
+              "particles": { "number": { "value": 60, "density": { "enable": true, "value_area": 800 }}, "color": { "value": "#d300ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false }}, "size": { "value": 3, "random": true, "anim": { "enable": false }}, "line_linked": { "enable": true, "distance": 150, "color": "#d300ff", "opacity": 0.2, "width": 1}, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false}},
+              "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true}, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 }}, "push": { "particles_nb": 4 }}},
+              "retina_detect": true
+            });
+        });
+    </script>
+</body>
+</html>

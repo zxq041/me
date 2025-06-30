@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - zxq0 Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #d300ff;
+            --background-color: #100018;
+            --text-color: #f0f0f0;
+            --text-muted-color: #a8b2d1;
+            --card-bg-color: rgba(22, 5, 29, 0.6);
+            --glow-color: rgba(211, 0, 255, 0.5);
+            --border-color: rgba(211, 0, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 0;
+            z-index: 1000;
+            background: rgba(16, 0, 24, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .logo-img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+        
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .nav-links a:not(.btn):hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--glow-color);
+        }
+
+        .section { padding: 100px 0; }
+        .page-header {
+            padding-top: 150px;
+            text-align: center;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+            text-shadow: 0 0 15px var(--glow-color);
+        }
+        
+        .contact-form-section {
+            background: var(--card-bg-color);
+            border-radius: 20px;
+            padding: 50px;
+            border: 1px solid var(--border-color);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        .form-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted-color);
+            transition: color 0.3s;
+        }
+        .form-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 15px 20px 15px 55px;
+            background: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+        .form-control:focus + .form-icon {
+            color: var(--primary-color);
+        }
+        textarea.form-control {
+            resize: vertical;
+            min-height: 150px;
+            padding-top: 15px;
+        }
+        .file-input-wrapper {
+            position: relative;
+        }
+        .file-input-label {
+            display: inline-block;
+            padding: 12px 20px;
+            background: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .file-input-label:hover {
+            background: #3c3952;
+        }
+        #file-upload { display: none; }
+        #file-name {
+            margin-left: 15px;
+            color: var(--text-muted-color);
+            font-style: italic;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 28px;
+            background: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            border: 2px solid var(--primary-color);
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 0 25px var(--glow-color);
+            background: #e433ff;
+        }
+        
+        /* --- ANIMACJA DUSZKA --- */
+        #ghost-container {
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 56px; /* 140px * 0.4 */
+            height: 56px; /* 140px * 0.4 */
+            transition: transform 0.3s ease-out;
+            pointer-events: none;
+            opacity: 0;
+            transform-origin: bottom left;
+        }
+        #ghost-container.visible {
+            opacity: 1;
+        }
+        #ghost {
+            position: relative;
+            scale: 0.4;
+        }
+        #red {
+            animation: upNDown infinite 0.5s;
+            position: relative;
+            width: 140px;
+            height: 140px;
+            display: grid;
+            grid-template-columns: repeat(14, 1fr);
+            grid-template-rows: repeat(14, 1fr);
+            grid-template-areas:
+                "a1  a2  a3  a4  a5  top0 top0 top0 top0 a10 a11 a12 a13 a14"
+                "b1  b2  b3  top1 top1 top1 top1 top1 top1 top1 top1 b12 b13 b14"
+                "c1 c2 top2 top2 top2 top2 top2 top2 top2 top2 top2 top2 c13 c14"
+                "d1 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 d14"
+                "e1 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 e14"
+                "f1 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 f14"
+                "top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4"
+                "top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4"
+                "top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4"
+                "top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4"
+                "top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4"
+                "top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4"
+                "st0 st0 an4 st1 an7 st2 an10 an10 st3 an13 st4 an16 st5 st5"
+                "an1 an2 an3 an5 an6 an8 an9 an9 an11 an12 an14 an15 an17 an18";
+        }
+        @keyframes upNDown { 0%, 49% { transform: translateY(0px); } 50%, 100% { transform: translateY(-10px); } }
+        #top0, #top1, #top2, #top3, #top4, #st0, #st1, #st2, #st3, #st4, #st5 { background-color: var(--primary-color); }
+        #top0 { grid-area: top0; } #top1 { grid-area: top1; } #top2 { grid-area: top2; } #top3 { grid-area: top3; } #top4 { grid-area: top4; } #st0 { grid-area: st0; } #st1 { grid-area: st1; } #st2 { grid-area: st2; } #st3 { grid-area: st3; } #st4 { grid-area: st4; } #st5 { grid-area: st5; }
+        #an1 { grid-area: an1; animation: flicker0 infinite 0.5s; } #an18 { grid-area: an18; animation: flicker0 infinite 0.5s; }
+        #an2 { grid-area: an2; animation: flicker1 infinite 0.5s; } #an17 { grid-area: an17; animation: flicker1 infinite 0.5s; }
+        #an3 { grid-area: an3; animation: flicker1 infinite 0.5s; } #an16 { grid-area: an16; animation: flicker1 infinite 0.5s; }
+        #an4 { grid-area: an4; animation: flicker1 infinite 0.5s; } #an15 { grid-area: an15; animation: flicker1 infinite 0.5s; }
+        #an6 { grid-area: an6; animation: flicker0 infinite 0.5s; } #an12 { grid-area: an12; animation: flicker0 infinite 0.5s; }
+        #an7 { grid-area: an7; animation: flicker0 infinite 0.5s; } #an13 { grid-area: an13; animation: flicker0 infinite 0.5s; }
+        #an9 { grid-area: an9; animation: flicker1 infinite 0.5s; } #an10 { grid-area: an10; animation: flicker1 infinite 0.5s; }
+        #an8 { grid-area: an8; animation: flicker0 infinite 0.5s; } #an11 { grid-area: an11; animation: flicker0 infinite 0.5s; }
+        @keyframes flicker0 { 0%, 49% { background-color: var(--primary-color); } 50%, 100% { background-color: transparent; } }
+        @keyframes flicker1 { 0%, 49% { background-color: transparent; } 50%, 100% { background-color: var(--primary-color); } }
+        #eye, #eye1 { width: 40px; height: 50px; position: absolute; top: 30px; }
+        #eye { left: 10px; } #eye1 { right: 30px; }
+        #eye::before, #eye1::before { content: ""; background-color: white; width: 20px; height: 50px; transform: translateX(10px); display: block; position: absolute; }
+        #eye::after, #eye1::after { content: ""; background-color: white; width: 40px; height: 30px; transform: translateY(10px); display: block; position: absolute; }
+        #pupil, #pupil1 { width: 20px; height: 20px; background-color: #000; position: absolute; top: 50px; z-index: 1; animation: eyesMovement infinite 3s; }
+        #pupil { left: 10px; } #pupil1 { right: 50px; }
+        @keyframes eyesMovement { 0%, 49% { transform: translateX(0px); } 50%, 99% { transform: translateX(10px); } 100% { transform: translateX(0px); } }
+        #shadow { background-color: black; width: 140px; height: 140px; position: absolute; border-radius: 50%; transform: rotateX(80deg); filter: blur(20px); top: 80%; animation: shadowMovement infinite 0.5s; }
+        @keyframes shadowMovement { 0%, 49% { opacity: 0.5; } 50%, 100% { opacity: 0.2; } }
+
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html"><img src="https://i.imgur.com/HewbjVb.png" alt="Profilowe zxq0" class="logo-img"></a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">Strona Główna</a></li>
+                    <li><a href="portfolio.html">Realizacje</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="contact" class="section page-header">
+            <div class="container">
+                <div class="contact-form-section">
+                    <h2 class="section-title">Napisz do nas</h2>
+                    <form action="mailto:zexq2000@gmail.com" method="post" enctype="text/plain">
+                        <div class="form-group">
+                            <input type="text" name="name" class="form-control" placeholder="Imię i nazwisko" required>
+                            <span class="form-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control" placeholder="Adres email" required>
+                            <span class="form-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="subject" class="form-control" placeholder="Temat" required>
+                             <span class="form-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z"/></svg></span>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message-area" name="message" class="form-control" placeholder="Twoja wiadomość..." required></textarea>
+                            <div id="ghost-container">
+                                <div id="ghost">
+                                    <div id="red">
+                                        <div id="top0"></div><div id="top1"></div><div id="top2"></div><div id="top3"></div><div id="top4"></div>
+                                        <div id="st0"></div><div id="st1"></div><div id="st2"></div><div id="st3"></div><div id="st4"></div><div id="st5"></div>
+                                        <div id="an1"></div><div id="an2"></div><div id="an3"></div><div id="an4"></div><div id="an5"></div><div id="an6"></div><div id="an7"></div><div id="an8"></div><div id="an9"></div><div id="an10"></div><div id="an11"></div><div id="an12"></div><div id="an13"></div><div id="an14"></div><div id="an15"></div><div id="an16"></div><div id="an17"></div><div id="an18"></div>
+                                        <div id="eye"></div><div id="pupil"></div>
+                                        <div id="eye1"></div><div id="pupil1"></div>
+                                    </div>
+                                    <div id="shadow"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="file-upload" class="file-input-label">Załącz plik (opcjonalnie)</label>
+                            <input type="file" id="file-upload" name="attachment">
+                            <span id="file-name"></span>
+                        </div>
+                        <button type="submit" class="btn">Wyślij wiadomość</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            animatedElements.forEach(el => observer.observe(el));
+            
+            const fileInput = document.getElementById('file-upload');
+            const fileNameSpan = document.getElementById('file-name');
+            if(fileInput && fileNameSpan) {
+                fileInput.addEventListener('change', () => {
+                    if (fileInput.files.length > 0) {
+                        fileNameSpan.textContent = fileInput.files[0].name;
+                    } else {
+                        fileNameSpan.textContent = '';
+                    }
+                });
+            }
+
+            // --- ANIMACJA DUSZKA ---
+            const messageArea = document.getElementById('message-area');
+            const ghost = document.getElementById('ghost-container');
+            if(messageArea && ghost) {
+                messageArea.addEventListener('input', () => {
+                    const textLength = messageArea.value.length;
+                    if (textLength > 0) {
+                        ghost.classList.add('visible');
+                        const maxMove = messageArea.clientWidth - ghost.clientWidth - 10;
+                        const moveX = (textLength * 12) % maxMove; 
+                        ghost.style.transform = `translateX(${moveX}px)`;
+                    } else {
+                        ghost.classList.remove('visible');
+                    }
+                });
+            }
+
+            particlesJS('particles-js', {
+              "particles": { "number": { "value": 60, "density": { "enable": true, "value_area": 800 }}, "color": { "value": "#d300ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false }}, "size": { "value": 3, "random": true, "anim": { "enable": false }}, "line_linked": { "enable": true, "distance": 150, "color": "#d300ff", "opacity": 0.2, "width": 1}, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false}},
+              "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true}, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 }}, "push": { "particles_nb": 4 }}},
+              "retina_detect": true
+            });
+        });
+    </script>
+</body>
+</html>
